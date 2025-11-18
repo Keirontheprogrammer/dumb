@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>story time</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header id="header">
+        <label class="switch">
+            <input type="checkbox">
+            <span class="slider"></span>
+        </label>
+    </header>
+    <div id="firsrDiv">
+        <p id="p">STORY GENERATOR</p>
+        <label for="name"></label>
+        <input type="text" id="name" placeholder="enter you name here" required>
+    </div>
+    <div id="checkbottons">
+        <input type="radio" id="USA" name="country" value="USA">
+        <label for="USA">USA</label>
+        <input type="radio" name="country" id="UK" value="UK">
+        <label for="UK">UK</label>
+    </div>
+
+    <button id="myBtn">Genrate story</button>
+
+    <div id="story">
+
+    </div>
+
+    <script src="stoy.js"></script>
+</body>
+</html>

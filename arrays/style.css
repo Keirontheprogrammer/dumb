@@ -1,0 +1,106 @@
+body {
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding-top: 50px;
+}
+body, #story {
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+#header {
+    display: flex;
+    justify-content: flex-end; 
+    padding: 10px; 
+}
+
+:root{
+    --width-of-switch:3.5em;
+    --height-of-switch:2em;
+
+    --size-of-icon: 1.4em;
+    --slider-offset: 0.3em;
+
+}
+.switch input{
+    width: 0;
+    height: 0;
+    opacity: 0;
+}
+
+.switch{
+
+    display: block;
+    position:relative;
+    width: var(--width-of-switch);
+    height: var(--height-of-switch);
+}
+
+.slider{
+    position: absolute;
+    cursor: pointer;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #f4f4f5;
+    transition: 0.4s;
+    border-radius: 30px;
+}
+.slider::before{
+    position: absolute;
+    content: "";
+    height: var(--size-of-icon, 1.4em);
+    width: var(--size-of-icon, 1.4em);
+    border-radius: 20px;
+    left: var(--slider-offset, 0.3em);
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(40deg, #ff0080, #ff8c00 70%);
+    transition: 0.4s;
+}
+
+input:checked + .slider{
+    background: #303136;
+}
+
+input:checked+ .slider::before{
+    left: calc(100% - (var(--size-of-icon, 1.4em) + var(--slider-offset, 0.3em)));
+    background: #303136;
+    box-shadow: inset -3px -2px 5px -2px #8983f7, inset -10px -4px 0 0 #a3dafb;
+}
+
+#name {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #aaa;
+    font-size: 16px;
+}
+
+
+#myBtn {
+    padding: 8px 14px;
+    margin-left: 10px;
+    border-radius: 6px;
+    border: none;
+    background-color: #ffcc00;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#myBtn:hover {
+    background-color: #e6b800;
+}
+
+
+#story {
+    display: none;
+    max-width: 500px;
+    margin: 30px auto; 
+    background: goldenrod;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    font-size: 18px;
+    line-height: 1.5;
+}
