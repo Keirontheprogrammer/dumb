@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    
+    <script>
+        async function GetData(){
+
+            //https://example.org/products.json//
+
+            const url ="https://dog.ceo/api/breeds/image/random";
+
+            try{
+                
+            const response = await fetch(url)
+
+            if(!response.ok){
+                throw new Error(`response status ${response.status}`);
+            }
+
+            const result = await response.json();
+            console.log(result)
+            
+            const img = document.createElement("img");
+            img.src = result.message;
+            document.body.appendChild(img);
+
+
+            }
+
+            catch(error){
+                console.log(error.message)
+            }
+           
+        }
+
+        GetData();
+    </script>
+</body>
+</html>
