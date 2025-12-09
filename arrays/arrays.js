@@ -13,7 +13,7 @@
 //     return char.length >= 8;
 // }
 
-// let indx=array.indexOf("tamandani");
+// let indx=array.indexOf("Asta");
 
 // if(indx != -1){
 //     array.splice(indx, 2)

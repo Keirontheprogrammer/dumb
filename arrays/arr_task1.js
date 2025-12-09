@@ -25,8 +25,8 @@
 // ]
 
 // MyArray.pop();
-// MyArray.push("tama")
-// MyArray.push("nsiku")
+// MyArray.push("Asta")
+// MyArray.push("Nicole")
 // console.log(MyArray)
 
 // for(ar in MyArray){

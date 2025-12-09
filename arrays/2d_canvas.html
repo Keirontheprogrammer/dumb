@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D MAKE IT RAIN FLOWERS 🌸</title>
+  <style>
+    body { margin:0; overflow:hidden; background:#000; }
+    button {
+      position:fixed; top:20px; left:50%; transform:translateX(-50%);
+      z-index:100; padding:18px 40px; font-size:24px; font-weight:bold;
+      background:#ff79c6; color:white; border:none; border-radius:50px;
+      cursor:pointer; box-shadow:0 10px 30px rgba(255,0,140,0.4);
+    }
+    button:hover { background:#ff92d4; }
+  </style>
+</head>
+<body>
+
+<button>MAKE IT RAIN FLOWERS 🌺</button>
+
+<!-- WORKING GLOBAL VERSION OF THREE.JS + ORBIT CONTROLS -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+<script>
+// === SCENE ===
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x000000);
+
+const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 1000);
+camera.position.z = 5;
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(devicePixelRatio);
+document.body.appendChild(renderer.domElement);
+
+// === CONTROLS ===
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+
+// === LIGHTS ===
+scene.add(new THREE.PointLight(0xffffff, 2, 100)).position.set(0, 10, 10);
+scene.add(new THREE.AmbientLight(0x404040));
+
+// === FLOWER COLORS ===
+const flowerColors = [
+  "#ff79c6", "#ffb3da", "#ff4d94", "#ffaaff",
+  "#f5e6ff", "#fff0f6", "#ff6699", "#ff99cc"
+];
+
+// === FLOWER GROUP ===
+const flowerGroup = new THREE.Group();
+scene.add(flowerGroup);
+
+// === CREATE FLOWER ===
+function createFlower() {
+  const size = Math.random() * 1.5 + 0.5;
+
+  // use canvas to draw a flower
+  const canvas = document.createElement("canvas");
+  canvas.width = canvas.height = 256;
+  const ctx = canvas.getContext("2d");
+
+  ctx.fillStyle = "rgba(0,0,0,0)";
+  ctx.fillRect(0, 0, 256, 256);
+
+  const petals = 5;
+  const radius = 80;
+  const color = flowerColors[Math.floor(Math.random() * flowerColors.length)];
+
+  // Draw petals
+  ctx.fillStyle = color;
+  for (let i = 0; i < petals; i++) {
+    ctx.beginPath();
+    ctx.ellipse(
+      128 + Math.cos((i / petals) * Math.PI * 2) * 40,
+      128 + Math.sin((i / petals) * Math.PI * 2) * 40,
+      50,
+      80,
+      (i / petals) * Math.PI * 2,
+      0, Math.PI * 2
+    );
+    ctx.fill();
+  }
+
+  // center circle
+  ctx.beginPath();
+  ctx.fillStyle = "#ffff66";
+  ctx.arc(128, 128, 35, 0, Math.PI * 2);
+  ctx.fill();
+
+  const texture = new THREE.CanvasTexture(canvas);
+
+  const material = new THREE.MeshBasicMaterial({
+    map: texture,
+    transparent: true,
+    side: THREE.DoubleSide
+  });
+
+  const flower = new THREE.Mesh(
+    new THREE.PlaneGeometry(size, size),
+    material
+  );
+
+  flower.position.set(
+    (Math.random() - 0.5) * 20,
+    Math.random() * 10 + 5,
+    (Math.random() - 0.5) * 20
+  );
+
+  flower.rotation.set(
+    Math.random() * Math.PI * 2,
+    Math.random() * Math.PI * 2,
+    Math.random() * Math.PI * 2
+  );
+
+  flower.velocity = {
+    x: (Math.random() - 0.5) * 0.05,
+    y: -Math.random() * 0.06 - 0.02,
+    rotX: Math.random() * 0.03,
+    rotY: Math.random() * 0.03,
+    rotZ: Math.random() * 0.03
+  };
+
+  flowerGroup.add(flower);
+}
+
+// === ANIMATION ===
+function animate() {
+  requestAnimationFrame(animate);
+
+  flowerGroup.children.forEach(flower => {
+    flower.position.x += flower.velocity.x;
+    flower.position.y += flower.velocity.y;
+    flower.rotation.x += flower.velocity.rotX;
+    flower.rotation.y += flower.velocity.rotY;
+    flower.rotation.z += flower.velocity.rotZ;
+
+    if (flower.position.y < -10) {
+      flower.position.y = 10;
+      flower.position.x = (Math.random() - 0.5) * 20;
+    }
+  });
+
+  controls.update();
+  renderer.render(scene, camera);
+}
+animate();
+
+// === BUTTON: RAIN FLOWERS ===
+document.querySelector("button").addEventListener("click", () => {
+  for (let i = 0; i < 100; i++) createFlower();
+});
+
+// === RESIZE ===
+window.addEventListener("resize", () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+</script>
+
+</body>
+</html>
